@@ -3,11 +3,12 @@
 from __future__ import annotations
 
 import argparse
+import getpass
 import sys
 from collections.abc import Callable, Sequence
 
 from .backlog import Backlog, BacklogError, load_backlog
-from .game import ConfigError, Game, parse_player_count, validate_pseudo
+from .game import CARDS, ConfigError, Game, VoteError, parse_player_count, validate_pseudo
 
 DEFAULT_BACKLOG = "exemples/backlog.json"
 
@@ -49,9 +50,23 @@ def load_backlog_interactive(first_path: str | None, input_fn: InputFn, print_fn
             path = None
 
 
+def run_votes(game: Game, secret_fn: InputFn, print_fn: PrintFn) -> dict[str, str]:
+    """Chaque joueur vote à son tour sans que sa carte soit affichée, puis tout est révélé."""
+    cards = ", ".join(CARDS)
+    for player in game.players:
+        while True:
+            try:
+                game.cast_vote(player, secret_fn(f"{player}, votre carte ({cards}) : "))
+                break
+            except VoteError as err:
+                print_fn(err)
+    return game.reveal()
+
+
 def main(
     argv: Sequence[str] | None = None,
     input_fn: InputFn = input,
+    secret_fn: InputFn = getpass.getpass,
     print_fn: PrintFn = print,
 ) -> int:
     parser = argparse.ArgumentParser(prog="capi", description="Planning poker en console.")
@@ -73,6 +88,10 @@ def main(
         print_fn(f"\nProjet : {backlog.projet} ({len(backlog.fonctionnalites)} fonctionnalités)")
         print_fn(f"Fonctionnalité à estimer : {feature.id} : {feature.titre}\n")
 
+        votes = run_votes(game, secret_fn, print_fn)
+        print_fn("\nCartes révélées :")
+        for player, card in votes.items():
+            print_fn(f"  {player} : {card}")
         return 0
     except (EOFError, KeyboardInterrupt):
         print_fn("\nPartie abandonnée.")
