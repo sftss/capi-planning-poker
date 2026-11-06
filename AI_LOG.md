@@ -7,18 +7,18 @@
 
 | Outil | Modèle (si connu) | Mode (autocomplétion, chat, agent) |
 |---|---|---|
-| | | |
+| Claude (claude.ai, avec accès au dépôt) | Claude Sonnet 5.5 | agent |
 
-Fichier d'instructions pour agent versionné (`CLAUDE.md`, `AGENTS.md`...) : <oui : chemin / non>
+Fichier d'instructions pour agent versionné (`CLAUDE.md`, `AGENTS.md`...) : non
 
 ## Entrées
 
-### AAAA-MM-JJ : <tâche en une ligne> (US-xx)
+### 2026-11-03 : Walking skeleton Python : saisie des joueurs, chargement du backlog, vote caché (US-01, US-06)
 
-- **Demande (résumé fidèle)** : <ce que vous avez demandé, avec le contexte fourni : fichiers, tests...>
-- **Résultat** : <accepté tel quel / modifié / rejeté>
-- **Ce que nous avons vérifié** : <tests lancés, lecture ligne à ligne, essai manuel...>
-- **Ce que nous avons changé ou rejeté, et pourquoi** :
+- **Demande (résumé fidèle)** : écrire en Python un squelette qui sépare moteur (`backlog.py`, `game.py`) et interface console (`cli.py`) : saisie du nombre de joueurs et des pseudos avec messages d'erreur (CU-01, 1a), chargement backlog JSON avec gestion des erreurs (extension 2a), vote caché puis révélation. Ajout aussi de `pyproject.toml`, `.gitignore` et du README. Contexte fourni : fiche S1, R0.md, énoncé du projet. Aucun test demandé à l'IA.
+- **Résultat** : modifié.
+- **Ce que nous avons vérifié** : l'IA a lancé le programme avec des entrées simulées (joueur unique, pseudo vide ou en double, fichier absent, backlog vide ou mal formé, abandon). Notre lecture ligne à ligne et notre essai manuel : OK.
+- **Ce que nous avons changé ou rejeté, et pourquoi** : reforumation, simplication de certains passsages
 
 ### AAAA-MM-JJ : ...
 
