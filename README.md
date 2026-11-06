@@ -26,16 +26,7 @@ Pendant le vote, la carte tapée par chaque joueur n'est pas affichée. Toutes l
 
 ## Tests
 
-Les tests utilisent [pytest](https://docs.pytest.org/), installé avec `pip install -e ".[dev]"` (voir ci-dessus). Depuis la racine du dépôt, avec l'environnement virtuel activé :
-
-```bash
-python -m pytest              # tous les tests
-python -m pytest -v           # détail test par test
-python -m pytest tests/test_game.py            # un seul fichier
-python -m pytest -k "pseudo"                   # uniquement les tests dont le nom contient "pseudo"
-```
-
-La configuration (dossier `tests/`, chemin `src`) est dans `pyproject.toml` : aucune option supplémentaire n'est nécessaire.
+A venir 
 
 ## Format du backlog JSON
 
