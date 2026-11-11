@@ -1,5 +1,7 @@
 # capi-planning-poker
 
+[![CI](https://github.com/sftss/capi-planning-poker/actions/workflows/ci.yml/badge.svg)](https://github.com/sftss/capi-planning-poker/actions/workflows/ci.yml)
+
 CAPI : application de planning poker en console (projet de Conception agile, binôme B2-11).
 
 État actuel (sprint 1) : saisie des joueurs, chargement d'un backlog JSON, vote caché puis révélation des cartes. La validation selon une règle (stricte, médiane...) arrive au sprint 2.

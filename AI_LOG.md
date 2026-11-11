@@ -20,6 +20,13 @@ Fichier d'instructions pour agent versionné (`CLAUDE.md`, `AGENTS.md`...) : non
 - **Ce que nous avons vérifié** : l'IA a lancé le programme avec des entrées simulées (joueur unique, pseudo vide ou en double, fichier absent, backlog vide ou mal formé, abandon). Notre lecture ligne à ligne et notre essai manuel : OK.
 - **Ce que nous avons changé ou rejeté, et pourquoi** : reforumation, simplication de certains passsages
 
+### 2026-11-11 : Workflow d'intégration continue GitHub Actions (US-02, US-03, US-04)
+
+- **Demande (résumé fidèle)** : écrire `.github/workflows/ci.yml` qui se déclenche sur push et PR vers `main`, installe Python et le projet, lance `pytest` et échoue si un test échoue ; épingler les actions sur un SHA de commit et ajouter le badge de statut au README.
+- **Résultat** : accepté
+- **Ce que nous avons vérifié** : SHA des actions comparés aux tags sur GitHub, run rouge obtenu avec les tests non implémentés.
+- **Ce que nous avons changé ou rejeté, et pourquoi** : commentaires du YAML réécrits
+
 ### AAAA-MM-JJ : ...
 
 ## Bilan (à compléter en séance 4, 3 lignes)
