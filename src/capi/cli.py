@@ -9,6 +9,7 @@ from collections.abc import Callable, Sequence
 
 from .backlog import Backlog, BacklogError, load_backlog
 from .game import CARDS, ConfigError, Game, VoteError, parse_player_count, validate_pseudo
+from .rules import MedianRule, Rule, StrictRule
 
 DEFAULT_BACKLOG = "exemples/backlog.json"
 
@@ -33,6 +34,20 @@ def configure_players(input_fn: InputFn, print_fn: PrintFn) -> list[str]:
             print_fn(err)
     return pseudos
 
+def configure_rule(input_fn: InputFn, print_fn: PrintFn) -> Rule:
+    """Demande la règle de validation."""
+    while True:
+        choice = input_fn(
+            "Règle de validation (strict / mediane) : "
+        ).strip().lower()
+
+        if choice in {"strict", "stricte"}:
+            return StrictRule()
+
+        if choice in {"mediane", "median", "médiane"}:
+            return MedianRule()
+
+        print_fn("Règle refusée : saisissez « strict » ou « mediane ».")
 
 def load_backlog_interactive(first_path: str | None, input_fn: InputFn, print_fn: PrintFn) -> Backlog | None:
     """Charge le backlog ; en cas d'erreur, affiche le message et redemande. None si abandon."""
@@ -62,6 +77,48 @@ def run_votes(game: Game, secret_fn: InputFn, print_fn: PrintFn) -> dict[str, st
                 print_fn(err)
     return game.reveal()
 
+def play_round(
+    game: Game,
+    secret_fn: InputFn,
+    print_fn: PrintFn,
+) -> bool:
+    """Joue un tour.
+
+    Retourne True si l'estimation est validée,
+    False si les joueurs doivent revoter.
+    """
+    print_fn(f"\n--- Tour {game.round_number} ---")
+
+    cards = ", ".join(CARDS)
+    for player in game.players:
+        while True:
+            try:
+                game.cast_vote(
+                    player,
+                    secret_fn(f"{player}, votre carte ({cards}) : "),
+                )
+                break
+            except VoteError as err:
+                print_fn(err)
+
+    votes = game.reveal()
+
+    print_fn("\nCartes révélées :")
+    for player, card in votes.items():
+        print_fn(f"  {player} : {card}")
+
+    decision = game.decide()
+
+    if decision.validated:
+        print_fn(
+            f"\nFonctionnalité validée avec la valeur {decision.value}."
+        )
+        return True
+
+    print_fn("\nPas d'accord : un nouveau tour commence.")
+    game.start_next_round()
+    return False
+
 
 def main(
     argv: Sequence[str] | None = None,
@@ -82,21 +139,29 @@ def main(
             return 1
 
         pseudos = configure_players(input_fn, print_fn)
+        rule = configure_rule(input_fn, print_fn)
+        game = Game(pseudos, backlog, rule)
+        print_fn(
+            f"\nProjet : {backlog.projet} "
+            f"({len(backlog.fonctionnalites)} fonctionnalités)"
+        )
 
-        game = Game(pseudos, backlog)
-        feature = game.current_feature
-        print_fn(f"\nProjet : {backlog.projet} ({len(backlog.fonctionnalites)} fonctionnalités)")
-        print_fn(f"Fonctionnalité à estimer : {feature.id} : {feature.titre}\n")
-
-        votes = run_votes(game, secret_fn, print_fn)
-        print_fn("\nCartes révélées :")
-        for player, card in votes.items():
-            print_fn(f"  {player} : {card}")
+        while True:
+            feature = game.current_feature
+            print_fn(
+                f"\nFonctionnalité à estimer : "
+                f"{feature.id} : {feature.titre}"
+            )
+            while not play_round(game, secret_fn, print_fn):
+                pass
+            if not game.has_next_feature:
+                print_fn("\nToutes les fonctionnalités ont été estimées.")
+                break
+            game.next_feature()
         return 0
     except (EOFError, KeyboardInterrupt):
         print_fn("\nPartie abandonnée.")
         return 1
-
 
 if __name__ == "__main__":
     sys.exit(main())
