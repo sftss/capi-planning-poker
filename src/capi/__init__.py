@@ -1,6 +1,6 @@
-"""CAPI : planning poker en console.
+"""CAPI : planning poker en console
 
-Le package est séparé en deux couches :
-- ``backlog`` et ``game`` : logique pure (aucun print, aucun input), testable sans interface ;
-- ``cli`` : interface console, qui ne contient aucune règle de jeu.
+Séparé en deux couches :
+- ``backlog``, ``game``, ``rules`` et ``persistence`` : logique, testable ;
+- ``cli`` : interface console, contient aucune règle de jeu ;
 """

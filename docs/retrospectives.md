@@ -6,7 +6,7 @@
 
 | US prévues | US terminées | Points prévus | Points réalisés (vélocité) |
 |---|---|---|---|
-| | | | |
+| 2 (US-01, US-06) | 2 | 7 (5 + 2) | 7 |
 
 ### Start / Stop / Continue
 
@@ -22,6 +22,14 @@ Chacun écrit **seul 1 idée par colonne**, puis mise en commun.
 |---|---|---|
 | 1 | | |
 | 2 | | |
+
+### Réponses aux issues reçues
+
+Aucune issue reçue : la revue croisée a été annulée pour la séance 3 (séance en distanciel).
+
+### Run de CI avec l'étape de documentation
+
+- Lien du run : 
 
 ---
 

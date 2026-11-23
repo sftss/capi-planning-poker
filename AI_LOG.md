@@ -27,7 +27,12 @@ Fichier d'instructions pour agent versionné (`CLAUDE.md`, `AGENTS.md`...) : non
 - **Ce que nous avons vérifié** : SHA des actions comparés aux tags sur GitHub, run rouge obtenu avec les tests non implémentés.
 - **Ce que nous avons changé ou rejeté, et pourquoi** : commentaires du YAML réécrits
 
-### AAAA-MM-JJ : ...
+### 2026-11-23 : Export JSON, carte café (sauvegarde / reprise) et documentation dans la CI (US-05, CU-01 ext. 2b et 4a)
+
+- **Demande (résumé fidèle)** : à partir de la fiche S3, implémenter l'export JSON final (chaque fonctionnalité, sa difficulté, la règle choisie), la sauvegarde de l'état quand tous les joueurs jouent café et la reprise depuis un menu ; ajouter à la CI une étape pdoc qui publie la documentation en artefact. Tests et docstrings du moteur de règles non demandés à l'IA.
+- **Résultat** : à compléter (accepté / modifié / rejeté).
+- **Ce que nous avons vérifié** : à compléter. (L'IA a joué un scénario simulé : revote puis validation, pause café, reprise après un chemin de sauvegarde erroné, export final ; `pytest` vert ; pdoc lancé en local.)
+- **Ce que nous avons changé ou rejeté, et pourquoi** : à compléter.
 
 ## Bilan (à compléter en séance 4, 3 lignes)
 
